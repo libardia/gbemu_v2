@@ -13,6 +13,8 @@
                     "run",
                     "--bin=gbemu",
                     "--",
+                    // "--help",
+                    // "-V",
                     "-mb",
                     // "res/dummy_cartromonly.bin",
                     "D:/Emulation/ROMs/GB/Tetris (World) (Rev 1).gb",

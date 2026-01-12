@@ -9,4 +9,5 @@ test-log = "0.2.19"
 paste = "1.0.15"
 ftail = "0.3.1"
 derive-new = "0.7.0"
-immut = { path = "lib/rust-immut" }
+clap = { version = "4.5.54", features = ["derive"] }
+getset = "0.1.6"

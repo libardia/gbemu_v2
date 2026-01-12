@@ -16,11 +16,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Checkout submodules
-      shell: bash
-      run: |
-        git submodule update --init --recursive lib/*
 
     - name: Build
       run: cargo build --verbose

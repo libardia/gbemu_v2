@@ -1,8 +1,11 @@
 #![allow(dead_code, unused_variables)]
 
+use clap::Parser;
 use ftail::Ftail;
 use log::{LevelFilter, debug, error};
 use std::{env, fs, panic, path::Path};
+
+use crate::gb::options::Options;
 
 mod gb;
 mod logging;
@@ -23,6 +26,9 @@ fn main() {
     // Parse commandline arguments
     let args: Vec<String> = env::args().collect();
     debug!("Raw args: {args:?}");
+
+    let ops = Options::parse();
+    debug!("{ops:?}")
 }
 
 fn init_logging(base_dir: &str) {
