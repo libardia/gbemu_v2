@@ -1,8 +1,11 @@
+use derive_new::new;
+
 use crate::gb::{
     context::Context,
-    hardware::{HardwareInit, MTick, MemoryInterface},
+    hardware::{HardwareInit, Tick, MemoryInterface},
 };
 
+#[derive(new)]
 pub struct Serial {}
 
 impl HardwareInit for Serial {
@@ -24,8 +27,8 @@ impl MemoryInterface for Serial {
     }
 }
 
-impl MTick for Serial {
-    fn m_tick(ctx: &mut Context) {
+impl Tick for Serial {
+    fn tick(ctx: &mut Context) {
         // TODO
         todo!()
     }

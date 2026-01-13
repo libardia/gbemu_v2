@@ -1,5 +1,8 @@
+use derive_new::new;
+
 use crate::gb::{context::Context, hardware::HardwareInit};
 
+#[derive(new)]
 pub struct Memory {}
 
 impl HardwareInit for Memory {

@@ -13,5 +13,6 @@ pub struct Options {
     #[arg(short, long)]
     boot: bool,
 
+    /// Path to the ROM file to open.
     rom_path: String,
 }

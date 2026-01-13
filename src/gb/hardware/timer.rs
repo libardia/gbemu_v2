@@ -1,8 +1,11 @@
+use derive_new::new;
+
 use crate::gb::{
     context::Context,
-    hardware::{HardwareInit, MTick, MemoryInterface},
+    hardware::{HardwareInit, MemoryInterface, Tick},
 };
 
+#[derive(new)]
 pub struct Timer {}
 
 impl HardwareInit for Timer {
@@ -24,8 +27,8 @@ impl MemoryInterface for Timer {
     }
 }
 
-impl MTick for Timer {
-    fn m_tick(ctx: &mut Context) {
+impl Tick for Timer {
+    fn tick(ctx: &mut Context) {
         // TODO
         todo!()
     }

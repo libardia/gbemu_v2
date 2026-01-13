@@ -1,8 +1,11 @@
+use derive_new::new;
+
 use crate::gb::{
     context::Context,
-    hardware::{HardwareInit, MTick, MemoryInterface},
+    hardware::{HardwareInit, Tick, MemoryInterface},
 };
 
+#[derive(new)]
 pub struct Input {}
 
 impl HardwareInit for Input {
@@ -24,8 +27,8 @@ impl MemoryInterface for Input {
     }
 }
 
-impl MTick for Input {
-    fn m_tick(ctx: &mut Context) {
+impl Tick for Input {
+    fn tick(ctx: &mut Context) {
         // TODO
         todo!()
     }

@@ -1,8 +1,11 @@
+use derive_new::new;
+
 use crate::gb::{
     context::Context,
-    hardware::{HardwareInit, MTick},
+    hardware::{HardwareInit, Tick},
 };
 
+#[derive(new)]
 pub struct Processor {}
 
 impl HardwareInit for Processor {
@@ -12,8 +15,8 @@ impl HardwareInit for Processor {
     }
 }
 
-impl MTick for Processor {
-    fn m_tick(ctx: &mut Context) {
+impl Tick for Processor {
+    fn tick(ctx: &mut Context) {
         // TODO
         todo!()
     }

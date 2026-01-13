@@ -17,6 +17,6 @@ pub trait MemoryInterface {
     fn write(ctx: &mut Context, address: u16, value: u8);
 }
 
-pub trait MTick {
-    fn m_tick(ctx: &mut Context);
+pub trait Tick {
+    fn tick(ctx: &mut Context);
 }

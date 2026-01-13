@@ -1,9 +1,14 @@
 #![allow(dead_code, unused_variables)]
 
 use clap::Parser;
-use ftail::Ftail;
-use log::{LevelFilter, debug, error};
-use std::{env, fs, panic, path::Path};
+use log::{LevelFilter, debug, error, trace};
+use std::{
+    env,
+    fs::{self, File},
+    panic,
+    path::Path,
+    time::SystemTime,
+};
 
 use crate::gb::options::Options;
 
@@ -25,26 +30,51 @@ fn main() {
 
     // Parse commandline arguments
     let args: Vec<String> = env::args().collect();
-    debug!("Raw args: {args:?}");
+    trace!("Raw args: {args:?}");
+    let options = Options::parse();
 
-    let ops = Options::parse();
-    debug!("{ops:?}")
+    gb::run(options);
 }
 
 fn init_logging(base_dir: &str) {
+    use fern::Dispatch;
+
     fs::create_dir(base_dir).ok();
-    Ftail::new()
-        .console_env_level()
-        .single_file(
-            &Path::new(base_dir).join("trace.log"),
-            false,
-            LevelFilter::Trace,
-        )
-        .single_file(
-            &Path::new(base_dir).join("debug.log"),
-            false,
-            LevelFilter::Debug,
-        )
-        .init()
+
+    let console = Dispatch::new()
+        .level(LevelFilter::Debug)
+        .chain(std::io::stdout());
+
+    let debug_file = Dispatch::new()
+        .level(LevelFilter::Debug)
+        .chain(log_file(base_dir, "debug.log"));
+
+    let trace_file = Dispatch::new()
+        .level(LevelFilter::Trace)
+        .chain(log_file(base_dir, "trace.log"));
+
+    Dispatch::new()
+        .format(|out, message, record| {
+            out.finish(format_args!(
+                "{} [{}] [{}] {}",
+                humantime::format_rfc3339_seconds(SystemTime::now()),
+                record.level(),
+                record.target(),
+                message
+            ))
+        })
+        .chain(console)
+        .chain(debug_file)
+        .chain(trace_file)
+        .apply()
         .unwrap();
+}
+
+fn log_file(base_dir: &str, file_name: &str) -> File {
+    std::fs::OpenOptions::new()
+        .write(true)
+        .create(true)
+        .append(false)
+        .open(Path::new(base_dir).join(file_name))
+        .unwrap()
 }

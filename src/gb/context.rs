@@ -1,3 +1,5 @@
+use derive_new::new;
+
 use crate::gb::{
     hardware::{
         audio::Audio, cpu::Processor, graphics::Graphics, input::Input, memory::Memory,
@@ -6,41 +8,31 @@ use crate::gb::{
     options::Options,
 };
 
+#[derive(new)]
 pub struct Context {
-    options: Options,
+    pub options: Options,
 
-    mem: Memory,
+    #[new(value = "Memory::new()")]
+    pub mem: Memory,
 
-    cpu: Processor,
-    gfx: Graphics,
-    timer: Timer,
-    input: Input,
-    audio: Audio,
-    serial: Serial,
+    #[new(value = "Processor::new()")]
+    pub cpu: Processor,
+
+    #[new(value = "Graphics::new()")]
+    pub gfx: Graphics,
+
+    #[new(value = "Timer::new()")]
+    pub timer: Timer,
+
+    #[new(value = "Input::new()")]
+    pub input: Input,
+
+    #[new(value = "Audio::new()")]
+    pub audio: Audio,
+
+    #[new(value = "Serial::new()")]
+    pub serial: Serial,
+
+    #[new(value = "true")]
+    pub running: bool,
 }
-
-macro_rules! ctx {
-    {
-        $(
-            $vis:vis fn $name:ident($($args:tt)*) $(-> $return:ty)? $body:block
-        )*
-    } => {
-        $(
-            $vis fn $name(ctx: &crate::gb::context::Context, $($args)*) $(-> $return)? $body
-        )*
-    }
-}
-pub(super) use ctx;
-
-macro_rules! mctx {
-    {
-        $(
-            $vis:vis fn $name:ident($($args:tt)*) $(-> $return:ty)? $body:block
-        )*
-    } => {
-        $(
-            $vis fn $name(ctx: &mut crate::gb::context::Context, $($args)*) $(-> $return)? $body
-        )*
-    }
-}
-pub(super) use mctx;
