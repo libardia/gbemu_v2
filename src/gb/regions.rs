@@ -86,7 +86,7 @@ def_regions! {
     OAM:       0xFE00, 0xFE9F;
     UNUSABLE:  0xFEA0, 0xFEFF;
     IO_REGS:   0xFF00, 0xFF7F;
-    HIGH_RAM:  0xFF80, 0xFFFE;
+    HIGH_RAM:  0xFF80, 0xFFFF;
 }
 
 def_regions! {

@@ -30,8 +30,6 @@ macro_rules! address_dispatch {
         match $address {
             $($(_ if $reg.contains($address))? $($value)? => $op,)+
             $(_ => $op_other,)?
-            #[allow(unreachable_patterns)]
-            _ => crate::logging::error_panic!("Accessed invalid address: {}", crate::logging::word_fmt!($address)),
         }
     };
 }
