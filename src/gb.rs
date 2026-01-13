@@ -4,7 +4,9 @@ use crate::gb::{context::Context, options::Options};
 
 mod context;
 mod hardware;
+mod io_regs;
 pub mod options;
+mod regions;
 
 pub fn run(options: Options) {
     info!("Starting");

@@ -1,9 +1,8 @@
 #![allow(dead_code, unused_variables)]
 
 use clap::Parser;
-use log::{LevelFilter, debug, error, trace};
+use log::{LevelFilter, error};
 use std::{
-    env,
     fs::{self, File},
     panic,
     path::Path,
@@ -28,12 +27,7 @@ fn main() {
         None => error!("Unrecoverable error; shutting down."),
     }));
 
-    // Parse commandline arguments
-    let args: Vec<String> = env::args().collect();
-    trace!("Raw args: {args:?}");
-    let options = Options::parse();
-
-    gb::run(options);
+    gb::run(Options::parse());
 }
 
 fn init_logging(base_dir: &str) {
@@ -74,7 +68,7 @@ fn log_file(base_dir: &str, file_name: &str) -> File {
     std::fs::OpenOptions::new()
         .write(true)
         .create(true)
-        .append(false)
+        .truncate(true)
         .open(Path::new(base_dir).join(file_name))
         .unwrap()
 }

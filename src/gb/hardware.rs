@@ -20,3 +20,19 @@ pub trait MemoryInterface {
 pub trait Tick {
     fn tick(ctx: &mut Context);
 }
+
+macro_rules! address_dispatch {
+    {
+        on $address:ident:
+            $($(#$reg:ident)?$($value:ident)? => $op:expr,)+
+            $(_ => $op_other:expr,)?
+    } => {
+        match $address {
+            $($(_ if $reg.contains($address))? $($value)? => $op,)+
+            $(_ => $op_other,)?
+            #[allow(unreachable_patterns)]
+            _ => crate::logging::error_panic!("Accessed invalid address: {}", crate::logging::word_fmt!($address)),
+        }
+    };
+}
+pub(super) use address_dispatch;
